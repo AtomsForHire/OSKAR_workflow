@@ -14,8 +14,9 @@ You will need to install [nextflow](https://www.nextflow.io/) to run this
 script.
 
 # Usage
-All settings can be found in the `nextflow.config` file. Comments are in there
-to help the user understand what each option does.
+First, clone this project and enter it. All settings can be found in the
+`nextflow.config` file. Comments are in there to help the user understand what
+each option does.
 
 > [!WARNING]
 > Nextflow is a great tool, *once* it works. It is very picky about syntax, and
