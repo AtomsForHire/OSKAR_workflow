@@ -105,6 +105,18 @@ process runEverything {
             #--no-precession \
             #--veto-threshold ${params.hyperdrive_settings.veto_threshold} \
             #--source-dist-cutoff ${params.hyperdrive_settings.source_dist_cutoff}
+
+            # ${params.hyperdrive_command} solutions-plot hyperdrive_solutions.fit
+
+            #${params.hyperdrive_command} solutions-apply \
+            #-d ${output_ms} \
+            #-s hyperdrive_solutions.fits 
+            """
+        }
+
+        // == WSCLEAN ==
+        if (params.run_wsclean) {
+            command += """
             """
         }
     }
