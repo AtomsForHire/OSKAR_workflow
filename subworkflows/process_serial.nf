@@ -32,7 +32,7 @@ process runEverything {
     publishDir "${params.out_dir}/${file(sky_model).baseName}_${file(telescope_model).baseName}_${pointing.name}", mode: 'move'
 
     input:
-    tuple val(sky_model), val(telescope_model), val(pointing)
+    tuple path(sky_model), path(telescope_model), val(pointing)
 
     output:
     path("*.ms"), emit: measurement_set, optional: true
