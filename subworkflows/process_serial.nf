@@ -100,7 +100,8 @@ process runEverything {
         // == HYPERDRIVE ==
         if (params.run_hyperdrive) {
             command += """
-            ${params.hyperdrive_command} -d ${output_ms} \
+            ${params.hyperdrive_command} di-calibrate \
+            -d ${output_ms} \
             -s ${params.hyperdrive_settings.source_list} \
             --no-precession \
             --veto-threshold ${params.hyperdrive_settings.veto_threshold} \
