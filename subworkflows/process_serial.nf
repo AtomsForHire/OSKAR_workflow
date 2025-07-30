@@ -75,7 +75,7 @@ process runEverything {
         command += """
         echo "--- Preparing Beam Pattern Simulation ---"
         printf '%s' '${beam_ini_content}' > ${beam_ini_filename}
-        #${params.oskar_sim_beam} ${beam_ini_filename}
+        ${params.oskar_sim_beam} ${beam_ini_filename}
         """
     }
 
@@ -94,29 +94,49 @@ process runEverything {
         command += """
         echo "--- Preparing Interferometer Simulation ---"
         printf '%s' '${int_ini_content}' > ${int_ini_filename}
-        #${params.oskar_sim_interferometer} ${int_ini_filename}
+        ${params.oskar_sim_interferometer} ${int_ini_filename}
         """
 
         // == HYPERDRIVE ==
         if (params.run_hyperdrive) {
             command += """
-            #${params.hyperdrive_command} -d ${output_ms} \
-            #-s ${params.hyperdrive_settings.source_list} \
-            #--no-precession \
-            #--veto-threshold ${params.hyperdrive_settings.veto_threshold} \
-            #--source-dist-cutoff ${params.hyperdrive_settings.source_dist_cutoff}
+            ${params.hyperdrive_command} -d ${output_ms} \
+            -s ${params.hyperdrive_settings.source_list} \
+            --no-precession \
+            --veto-threshold ${params.hyperdrive_settings.veto_threshold} \
+            --source-dist-cutoff ${params.hyperdrive_settings.source_dist_cutoff}
 
-            # ${params.hyperdrive_command} solutions-plot hyperdrive_solutions.fit
+            ${params.hyperdrive_command} solutions-plot hyperdrive_solutions.fit
 
-            #${params.hyperdrive_command} solutions-apply \
-            #-d ${output_ms} \
-            #-s hyperdrive_solutions.fits 
+            ${params.hyperdrive_command} solutions-apply \
+            -d ${output_ms} \
+            -s hyperdrive_solutions.fits \
+            -o calibrated.ms
             """
         }
 
         // == WSCLEAN ==
-        if (params.run_wsclean) {
+        if (params.run_wsclean_on_raw) {
             command += """
+            ${params.wsclean_command} \
+            -size ${params.wsclean_settings.size} ${params.wsclean_settings.size} \
+            -scale ${params.wsclean_settings.scale} \
+            -niter ${params.wsclean_settings.niter} \
+            -no-negative \
+            -auto-threshold 3 \
+            sim.ms 
+            """
+        }
+
+        if (params.run_wsclean_on_calibrated) {
+            command += """
+            ${params.wsclean_command} \
+            -size ${params.wsclean_settings.size} ${params.wsclean_settings.size} \
+            -scale ${params.wsclean_settings.scale} \
+            -niter ${params.wsclean_settings.niter} \
+            -no-negative \
+            -auto-threshold 3 \
+            calibrated.ms
             """
         }
     }
