@@ -2,9 +2,11 @@
 def buildIniContent(Map settings) {
     def builder = new StringBuilder()
     settings.each { section, pairs ->
-        builder.append("[$section]\n")
+        builder.append("[${section}]\n")
         pairs.each { key, value ->
-            if (value != null) builder.append("$key=$value\n")
+            if (value != null) {
+                builder.append("${key}=${value}\n")
+            }
         }
         builder.append("\n")
     }
@@ -16,7 +18,8 @@ def deepCopy(orig) {
     orig.each { key, value ->
         if (value instanceof Map) {
             copy[key] = deepCopy(value)
-        } else if (value instanceof List) {
+        }
+        else if (value instanceof List) {
             copy[key] = value.clone()
         }
         else {
@@ -35,11 +38,11 @@ process runEverything {
     tuple path(sky_model), path(telescope_model), val(pointing)
 
     output:
-    path("*.ms"), emit: measurement_set, optional: true
-    path("*.ini"), emit: settings_file
-    path("*.fits"), emit: beam_patterns, optional: true
+    path ("*.ms"), emit: measurement_set, optional: true
+    path ("*.ini"), emit: settings_file
+    path ("*.fits"), emit: beam_patterns, optional: true
 
-    shell:
+    script:
     def sm = sky_model
     def tm = telescope_model
     def pt = pointing
@@ -155,8 +158,8 @@ process runEverything {
 
 workflow PROCESS_SERIAL {
     take:
-        input_val
+    input_val
 
     main:
-        runEverything(input_val)
+    runEverything(input_val)
 }
