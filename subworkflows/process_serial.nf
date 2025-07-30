@@ -48,8 +48,8 @@ process runEverything {
     // Prepare base settings used by both int and beam sims
     // def base_settings = params.oskar_settings.clone()
     def base_settings = deepCopy(params.oskar_settings)
-    base_settings.sky['oskar_sky_model/file'] = file(sm)
-    base_settings.telescope.input_directory = file(tm)
+    base_settings.sky['oskar_sky_model/file'] = sm
+    base_settings.telescope.input_directory = tm
     base_settings.telescope.x_gain = pt.x_gain
     base_settings.telescope.y_gain = pt.y_gain
     base_settings.telescope.x_gain_error_time = pt.x_gain_error_time
