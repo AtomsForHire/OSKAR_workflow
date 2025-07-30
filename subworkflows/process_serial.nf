@@ -122,6 +122,7 @@ process runEverything {
             -size ${params.wsclean_settings.size} ${params.wsclean_settings.size} \
             -scale ${params.wsclean_settings.scale} \
             -niter ${params.wsclean_settings.niter} \
+            -name raw_ms_image \
             -no-negative \
             -auto-threshold 3 \
             ${output_ms}
@@ -134,6 +135,7 @@ process runEverything {
             -size ${params.wsclean_settings.size} ${params.wsclean_settings.size} \
             -scale ${params.wsclean_settings.scale} \
             -niter ${params.wsclean_settings.niter} \
+            -name calibrated_ms_image \
             -no-negative \
             -auto-threshold 3 \
             ${output_ms}_calibrated.ms
