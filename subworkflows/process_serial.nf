@@ -40,7 +40,6 @@ process runEverything {
     path("*.fits"), emit: beam_patterns, optional: true
 
     shell:
-
     def sm = sky_model
     def tm = telescope_model
     def pt = pointing
@@ -112,7 +111,7 @@ process runEverything {
             ${params.hyperdrive_command} solutions-apply \
             -d ${output_ms} \
             -s hyperdrive_solutions.fits \
-            -o calibrated.ms
+            -o ${output_ms}_calibrated.ms
             """
         }
 
@@ -125,7 +124,7 @@ process runEverything {
             -niter ${params.wsclean_settings.niter} \
             -no-negative \
             -auto-threshold 3 \
-            sim.ms 
+            ${output_ms}
             """
         }
 
@@ -137,7 +136,7 @@ process runEverything {
             -niter ${params.wsclean_settings.niter} \
             -no-negative \
             -auto-threshold 3 \
-            calibrated.ms
+            ${output_ms}_calibrated.ms
             """
         }
     }
