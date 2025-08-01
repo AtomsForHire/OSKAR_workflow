@@ -41,6 +41,7 @@ process runEverything {
     path ("*.ms"), emit: measurement_set, optional: true
     path ("*.ini"), emit: settings_file
     path ("*.fits"), emit: beam_patterns, optional: true
+    path ("*.png"), emit: cal_images, optional: true
 
     script:
     def sm = sky_model
@@ -109,7 +110,7 @@ process runEverything {
             --veto-threshold ${params.hyperdrive_settings.veto_threshold} \
             --source-dist-cutoff ${params.hyperdrive_settings.source_dist_cutoff}
 
-            ${params.hyperdrive_command} solutions-plot hyperdrive_solutions.fit
+            ${params.hyperdrive_command} solutions-plot hyperdrive_solutions.fits
 
             ${params.hyperdrive_command} solutions-apply \
             -d ${output_ms} \
